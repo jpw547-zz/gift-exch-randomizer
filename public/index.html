@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="icon" href="favicon.ico?v=1.1">
+    <title>Gift Exchange</title>
+</head>
+
+<body>
+    <div id="app" class="base">
+        <div class="header">
+            <span>Christmas Gift Exchange Randomizer</span>
+            <div>
+                <span v-if="user" style="font-size: 12pt;">Welcome {{user.username}}</span>
+                <button v-if="user" class="basic-button primary" @click="logout">Logout</button>
+                <button v-else class="basic-button primary" @click="toggleForm">Login</button>
+            </div>
+        </div>
+
+        <div>
+            <span>Enter a list of names</span>
+            <hr>
+            <span>or log in to user an existing list</span>
+        </div>
+
+        <div class="footer">
+            <a class="footer-text" href="https://github.com/jpw547/gift-exch-randomizer" target="_blank">Github</a>
+        </div>
+        <transition v-if="showForm" name="modal">
+            <div class="modal-mask">
+                <div class="modal-wrapper">
+                    <div class="modal-container">
+                        <div class="modal-header">
+                            <h1 class="modal-title">Register or Login</h1>
+                        </div>
+                        <p v-if="error" class="error">{{error}}</p>
+                        <div class="modal-body">
+
+
+                            <div class="input-container">
+                                <label class="input-label">Username</label>
+                                <br>
+                                <input v-model="username">
+                            </div>
+                            <div class="input-container">
+                                <label class="input-label">Password</label>
+                                <br>
+                                <input type="password" v-model="password">
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button @click="register" type="button" class="raised-button primary">Register</button>
+                            <button @click="login" type="button" class="raised-button accent">Login</button>
+                            <button @click="toggleForm" type="button" class="raised-button close">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </transition>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js" integrity="sha256-mpnrJ5DpEZZkwkE1ZgkEQQJW/46CSEh/STrZKOB/qoM=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.7/vue.js" integrity="sha256-g+Q8DFAmG5+eyRPSydX0LY4TfjsL11XSDrIGerbbEdA=" crossorigin="anonymous"></script>
+    <script src="/script.js"></script>
+</body>
+
+
+
+</html>

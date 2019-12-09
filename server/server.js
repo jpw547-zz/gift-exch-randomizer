@@ -20,5 +20,7 @@ app.use(cookieParser());
 
 const gifts = require('./gifts.js');
 app.use('/api/gifts', gifts);
+const users = require('./users.js');
+app.use('/api/users', users);
 
 app.listen(5730, () => console.log('Server listening on port 5730'));
