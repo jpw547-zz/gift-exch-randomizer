@@ -1,0 +1,26 @@
+{
+  "name": "gift-exch-randomizer",
+  "version": "1.0.0",
+  "description": "- A program used to take a list of names and generate a new mapping of who should get gifts for who from the list.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jpw547/gift-exch-randomizer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jpw547/gift-exch-randomizer/issues"
+  },
+  "homepage": "https://github.com/jpw547/gift-exch-randomizer#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.7",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.7.14"
+  }
+}
