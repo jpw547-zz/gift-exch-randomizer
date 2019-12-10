@@ -20,11 +20,76 @@
             </div>
         </div>
 
-        <div>
-            <span>Enter a list of names</span>
-            <hr>
-            <span>or log in to user an existing list</span>
+        <div class="instruction-row">
+                <span>Enter a list of names</span>
+                <hr>
+                <div v-if="!user">
+                        <span>or </span><a class="fake-link" v-on:click="toggleForm">log in</a><span> to use an existing list</span>
+                </div>
+                <div v-else class="row">
+                    <span style="margin-right: 10px;">or choose from an existing list</span>
+                    <div class="row">
+                        <div class="input-container-tight">
+                            <label class="input-label">Year</label>
+                            <select v-model="selectedYear">
+                                <option v-for="year in yearOptions" v-bind:value="year">{{year}}</option>
+                            </select>
+                        </div>
+                        <div class="input-container-tight">
+                            <label class="input-label">List</label>
+                            <select v-model="currentList" class="list-select">
+                                <option v-if="totalLists.length == 0" disabled value=None>No lists</option>
+                                <option v-for="list in totalLists" v-bind:value="list">{{list.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        <div class="main-row">
+                <div class="main-container">
+                        <div class="container-item">
+                                <div class="input-container">
+                                        <label class="input-label">Name of List</label>
+                                        <input v-model="currentList.name" class="key-input">
+                                    </div>
+                        </div>
+                        <div class="container-item">
+                            <div class="list-pair">
+                                <span class="pair-half">Names</span>
+                                <span class="pair-half">(Optional) Who they had:</span>
+                            </div>
+                            <div class="full-list">
+                                    <div v-for="(person, index) in Object.keys(currentList.mapping)" class="list-pair">
+                                            <div class="display-text">
+                                                <input id="name + index" v-bind:value="person" readonly class="key-input readonly">
+                                                <img src="images/close-24px.svg" alt="" class="icon-close" v-on:click="deleteNameFromKeys(person)">
+                                            </div>
+                                            <div class="input-container">
+                                                <select v-model="currentList.mapping[person]" class="name-select" v-on:change="check">
+                                                    <option v-for="name in peopleOptions" v-if="name != person">{{name}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                            </div>
+                            
+                            <div class="input-container">
+                                <label class="input-label">New Name</label>
+                                <input v-model="newKey" v-on:keyup.enter="addNameAsKey" class="key-input">
+                            </div>
+                        </div>
+                </div>
+                <div style="padding: 30px 40px;">
+                        <button class="raised-button warn" v-on:click="chooseNamesForList">Assign Names</button>
+                    </div>
+                    
         </div>
+        
+
+            
+            
+       
 
         <div class="footer">
             <a class="footer-text" href="https://github.com/jpw547/gift-exch-randomizer" target="_blank">Github</a>
@@ -36,18 +101,16 @@
                         <div class="modal-header">
                             <h1 class="modal-title">Register or Login</h1>
                         </div>
-                        <p v-if="error" class="error">{{error}}</p>
+                        <p v-if="error" class="error warn">{{error}}</p>
                         <div class="modal-body">
 
 
                             <div class="input-container">
                                 <label class="input-label">Username</label>
-                                <br>
                                 <input v-model="username">
                             </div>
                             <div class="input-container">
                                 <label class="input-label">Password</label>
-                                <br>
                                 <input type="password" v-model="password">
                             </div>
 

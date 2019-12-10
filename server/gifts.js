@@ -81,4 +81,37 @@ router.delete('/:id', auth.verifyToken, async(req, res) => {
     }
 });
 
+// assign names for a gift list
+router.put('/', async (req, res) => {
+    const gift = {
+        _id: req.body._id,
+        user: req.body.user,
+        name: req.body.name,
+        year: req.body.year,
+        mapping: req.body.mapping
+    };
+
+    let keyList = Object.keys(gift.mapping);
+    let usedNames = [];
+    const today = new Date(Date.now());
+    const newList = {
+        _id: '',
+        user: gift.user,
+        name: gift.name + " " + today.getFullYear(),
+        year: today.getFullYear(),
+        mapping: {}
+    };
+
+    for (let i=0; i < keyList.length; i++) {
+        let name = keyList[i];
+        let recipient = keyList[Math.floor(Math.random()*keyList.length)];
+        if (name != recipient && gift.mapping[name] != recipient && !usedNames.includes(recipient)) {
+            newList.mapping[name] = recipient;
+            usedNames.push(recipient);
+        }
+    }
+
+    return res.send(newList);
+})
+
 module.exports = router;
