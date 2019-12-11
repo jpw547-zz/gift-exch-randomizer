@@ -14,13 +14,7 @@ var app = new Vue({
             year: Number,
             mapping: {}
         },
-        remixedList: {
-            _id: '',
-            user: '',
-            name: '',
-            year: Number,
-            mapping: {}
-        },
+        remixedList: null,
         selectedYear: Number,
         selectedName: '',
         yearOptions: [],
@@ -29,9 +23,9 @@ var app = new Vue({
         peopleOptions: [],
     },
     created() {
-        this.selectedYear = new Date(Date.now()).getFullYear()-1;
+        this.selectedYear = new Date(Date.now()).getFullYear();
         this.currentList.year = new Date(Date.now()).getFullYear();
-        this.remixedList.year = this.currentList.year;
+        // this.remixedList.year = this.currentList.year;
         this.getUser();
         this.yearOptions.push(this.selectedYear);
         this.getLists();
@@ -49,6 +43,7 @@ var app = new Vue({
         updatePeopleOptions() {
             let newPeopleOptions = Object.keys(this.currentList.mapping);
             this.peopleOptions = newPeopleOptions;
+            this.check();
         },
         check() {
             console.log(this.currentList);
@@ -78,6 +73,13 @@ var app = new Vue({
                 }
             }
         },
+        upsertGiftExchList() {
+            if (this.currentList._id.length > 0) {
+                this.saveGiftExchList();
+            } else {
+                this.addGiftExchList();
+            }
+        },
         async addGiftExchList() {
             try {
                 let response = await axios.post("/api/gifts", {
@@ -94,9 +96,9 @@ var app = new Vue({
         async saveGiftExchList() {
             try {
                 let response = await axios.put("/api/gifts/" + this.currentList._id, {
-                    name: this.currentList.name,
-                    year: this.currentList.year,
-                    mapping: this.currentList.mapping
+                    name: this.remixedList.name,
+                    year: this.remixedList.year,
+                    mapping: this.remixedList.mapping
                 });
                 this.getLists();
             } catch (error) {
@@ -121,6 +123,7 @@ var app = new Vue({
                     mapping: this.currentList.mapping
                 });
                 console.log(response.data);
+                this.remixedList = response.data;
             } catch (error) {
                 console.log(error);
             }
@@ -149,6 +152,7 @@ var app = new Vue({
                 this.user = response.data;
                 // close the dialog
                 this.toggleForm();
+                this.getLists();
             } catch (error) {
                 this.error = error.response.data.message;
             }

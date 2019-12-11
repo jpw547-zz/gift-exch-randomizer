@@ -36,7 +36,8 @@ router.post('/', async(req, res) => {
         mapping: req.body.mapping
     });
     try {
-        await Gift.save();
+        console.log("saving list...", gift)
+        await gift.save();
         return res.send(gift);
     } catch (error) {
         console.log(error);
@@ -60,6 +61,7 @@ router.put('/:id', auth.verifyToken, async(req, res) => {
         g.year = req.body.year;
         g.mapping = req.body.mapping;
 
+        console.log("saving list...", g)
         await g.save();
         return res.sendStatus(200);
     } catch (error) {
@@ -82,8 +84,8 @@ router.delete('/:id', auth.verifyToken, async(req, res) => {
 });
 
 // assign names for a gift list
-router.put('/', async (req, res) => {
-    const gift = {
+router.put('/', async(req, res) => {
+    let gift = {
         _id: req.body._id,
         user: req.body.user,
         name: req.body.name,
@@ -93,25 +95,35 @@ router.put('/', async (req, res) => {
 
     let keyList = Object.keys(gift.mapping);
     let usedNames = [];
-    const today = new Date(Date.now());
-    const newList = {
+    let today = new Date(Date.now());
+    let newList = {
         _id: '',
         user: gift.user,
-        name: gift.name + " " + today.getFullYear(),
+        name: gift.name,
         year: today.getFullYear(),
         mapping: {}
     };
 
-    for (let i=0; i < keyList.length; i++) {
-        let name = keyList[i];
-        let recipient = keyList[Math.floor(Math.random()*keyList.length)];
-        if (name != recipient && gift.mapping[name] != recipient && !usedNames.includes(recipient)) {
-            newList.mapping[name] = recipient;
-            usedNames.push(recipient);
+    for (const name of keyList) {
+        let recipient = '';
+        let valid = false;
+
+        while (!valid) {
+            recipient = keyList[Math.floor(Math.random() * keyList.length)];
+            if (recipient != name && gift.mapping[name] != recipient && !usedNames.includes(recipient)) {
+                valid = true;
+            }
         }
+
+        console.log("unused name - ", recipient);
+
+        newList.mapping[name] = recipient;
+        usedNames.push(recipient);
     }
 
-    return res.send(newList);
+    usedNames = [];
+
+    return res.status(200).send(newList);
 })
 
 module.exports = router;

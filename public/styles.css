@@ -28,7 +28,12 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: #eeeeee;
+    background-color: #f8f8f8;
+}
+
+.big-block {
+    max-width: 1200px;
+    margin: auto;
 }
 
 .header {
@@ -134,12 +139,12 @@ body {
     box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12);
 }
 
-
 .fake-link {
     color: #283593;
     text-decoration: underline;
     cursor: pointer;
 }
+
 
 /* Login Form */
 
@@ -203,6 +208,7 @@ body {
     border-radius: 4px;
 }
 
+
 /*
     * The following styles are auto-applied to elements with
     * transition="modal" when their visibility is toggled
@@ -261,7 +267,7 @@ select {
     background-color: inherit;
     padding: 2px 2px;
     min-width: 70px;
-    font-family: Roboto,"Helvetica Neue",sans-serif;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
     font-size: 12pt;
     display: inline-block;
     outline: 0;
@@ -283,6 +289,7 @@ select {
     justify-content: space-between;
     height: 30px;
     margin: 10px;
+    width: 150px;
 }
 
 .input-container {
@@ -324,10 +331,16 @@ select {
     margin: 5px;
 }
 
+.main-container {
+    width: 550px;
+    font-size: 14pt;
+    margin: 5px;
+}
+
 .main-row {
     display: flex;
     flex-flow: row wrap;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: flex-start;
 }
 
@@ -358,6 +371,10 @@ select {
     margin: 10px;
 }
 
+.remix {
+    width: 150px;
+}
+
 .icon-close {
     transform: scale(0.75);
     background-color: inherit;
@@ -382,15 +399,16 @@ select {
     max-height: 50vh;
     max-width: 475px;
     overflow: auto;
-    
 }
 
 .full-list::-webkit-scrollbar {
     width: 0.3em;
 }
+
 .full-list::-webkit-scrollbar-thumb {
     background: #757575;
 }
+
 .full-list::-webkit-scrollbar-track {
     background: #ddd;
 }
